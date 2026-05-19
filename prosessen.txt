@@ -1,0 +1,19 @@
+
+Arbeidsmappe
+   ↓
+Blob-objekter (en per fil)
+   ↓
+Tree-objekt (representerer hele mappen)
+   ↓
+Commit-objekt (peker til tree)
+   ↓
+HEAD oppdateres
+
+
+tree <treehash>
+parent <parenthash>   (valgfritt)
+author Ole <ole@example.com> 1716060000 +0200
+committer Ole <ole@example.com> 1716060000 +0200
+
+Commit message her
+Et commit‑objekt er ren tekst (ASCII), etterfulgt av en nullbyte og så innholdet — akkurat som blob og tree.
