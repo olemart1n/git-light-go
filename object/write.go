@@ -10,11 +10,9 @@ import (
 )
 
 // Write creates a /objects/**/hash file and writes the content to it.
-// func Write(gitDirectory string, hash string, object []byte) (string, error) {
 func Write(obj GitObject) (string, error) {
 
 	// 1. HEADER
-
 	body := obj.Body()
 	objType := obj.Type()
 	var header bytes.Buffer
@@ -23,19 +21,22 @@ func Write(obj GitObject) (string, error) {
 	header.WriteString(strconv.Itoa(len(body)))
 	header.WriteByte(0)
 	header.Write([]byte(body))
-	//
-	// 4. HASH COMMITEN
-	sum := sha1.Sum(header.Bytes())             // Array [20]byte
-	encodedObject := hex.EncodeToString(sum[:]) // [:] gjør om array til []byte
 
-	// BRUK DE TO FØRSTE KARAKTERENE I HASHEN SOM MAPPE-NAVN
+	// 4. HASH header
+	sum := sha1.Sum(header.Bytes())             // Array [20]byte
+	encodedObject := hex.EncodeToString(sum[:]) //
+
 	dir := filepath.Join(".git-light", "objects", encodedObject[:2])
-	// BRUK DE RESTERENDE KARAKTERENE SOM FILNAVN
 	fp := filepath.Join(dir, encodedObject[2:])
 
 	// SØRG FOR AT MAPPEN FINNES
 	if err := os.MkdirAll(dir, 0775); err != nil {
 		return "", err
+	}
+
+	// OBJEKTET ER IMMUTABLE, SÅ SJEKK OM DET ALLEREDE EKSISTER. VISST IKKE HOPP OVER WRITE
+	if _, err := os.Stat(fp); err == nil {
+		return encodedObject, nil
 	}
 
 	// SKRIV OBJEKTET TIL FILEN

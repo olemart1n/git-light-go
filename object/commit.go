@@ -16,7 +16,7 @@ type Commit struct {
 
 // HUSK AT COMMIT IKKE INNEHOLDER NOE KODE RELATERT TIL SELVE PROSJEKTET
 
-func (c Commit) Body() string {
+func (c Commit) Body() []byte {
 	// 1. Tid i UNIX-format
 	now := time.Now()
 	timestamp := now.Unix()
@@ -54,7 +54,7 @@ func (c Commit) Body() string {
 
 	body.WriteString(c.Message)
 
-	return body.String()
+	return body.Bytes()
 
 }
 

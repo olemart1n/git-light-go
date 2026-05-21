@@ -9,8 +9,13 @@ import (
 )
 
 func Commit(rootDir string, message string) error {
+	parentHash, err := repo.ReadHEAD()
+	if err != nil {
+		return err
+	}
 
-	files, err := util.ScanWorkingDirectory(rootDir)
+	files, err := util.ScanDirForFiles(rootDir)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,9 +43,10 @@ func Commit(rootDir string, message string) error {
 	tree := object.Tree{
 		Entries: entries,
 	}
-	treeHash, _ := object.Write(tree)
-
-	parentHash, _ := repo.ReadHEAD()
+	treeHash, err := object.Write(tree)
+	if err != nil {
+		return err
+	}
 
 	commit := object.Commit{
 		Message:    message,

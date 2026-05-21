@@ -17,3 +17,13 @@ committer Ole <ole@example.com> 1716060000 +0200
 
 Commit message her
 Et commit‑objekt er ren tekst (ASCII), etterfulgt av en nullbyte og så innholdet — akkurat som blob og tree.
+
+
+
+
+
+AV EN ELLER ANNEN GRUNN ER FILNAV HASHENE I TREE LAGRET I RÅ BYTES. EGENTLIG SKAL ALLE FILER VÆRE LAGRET I RÅBYTES.
+
+sum := sha1.Sum(obj) // RÅDATA
+
+HEX FORMATET TRENGS BARE FOR MAPPE/FIL NAVN.

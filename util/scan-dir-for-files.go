@@ -5,13 +5,13 @@ import (
 	"path/filepath"
 )
 
-// ScanWorkingDirectory traverses the rootDir return an array with filenames, skipping directory names.
+// ScanDirForFiles traverses the directory and return an array with filenames, skipping directory names.
 // It ignores ".git-light", ".git".
-func ScanWorkingDirectory(rootDir string) ([]string, error) {
+func ScanDirForFiles(dir string) ([]string, error) {
 
 	var files []string
 
-	err := filepath.WalkDir(rootDir, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
 
 		if err != nil {
 			return err

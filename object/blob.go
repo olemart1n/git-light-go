@@ -9,7 +9,7 @@ type Blob struct {
 	Data []byte
 }
 
-func (b Blob) Body() string {
+func (b Blob) Body() []byte {
 
 	var buf bytes.Buffer
 	buf.WriteString(b.Type())
@@ -18,7 +18,7 @@ func (b Blob) Body() string {
 	buf.WriteByte(0)
 	buf.Write(b.Data)
 
-	return buf.String()
+	return buf.Bytes()
 }
 
 func (b Blob) Type() string {
