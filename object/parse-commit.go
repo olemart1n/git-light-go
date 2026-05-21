@@ -1,18 +1,10 @@
-package repo
+package object
 
 import (
 	"bytes"
 	"fmt"
 	"strings"
 )
-
-type Commit struct {
-	TreeHash      string
-	ParentHash    string
-	Message       string
-	AuthorData    string
-	CommitterData string
-}
 
 func ParseCommit(data []byte) Commit {
 	_, after, found := bytes.Cut(data, []byte{0})
@@ -49,11 +41,11 @@ func ParseCommit(data []byte) Commit {
 			continue
 		}
 		if authorData, found := strings.CutPrefix(line, "author "); found {
-			c.AuthorData = authorData
+			c.Author = authorData
 			continue
 		}
 		if committerData, found := strings.CutPrefix(line, "committer "); found {
-			c.CommitterData = committerData
+			c.Committer = committerData
 		}
 
 	}

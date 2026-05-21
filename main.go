@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"git-light/cmd"
-	"git-light/repo"
-
 	"os"
 )
 
@@ -45,7 +43,7 @@ func main() {
 			fmt.Println("Usage: git-light checkout <hash>")
 			return
 		}
-		repo.Checkout(arguments[2])
+		cmd.Checkout(arguments[2])
 	default:
 		fmt.Println("git-light: unknown command:", command)
 

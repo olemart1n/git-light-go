@@ -12,6 +12,7 @@ type Commit struct {
 	Author     string
 	ParentHash string
 	TreeHash   string
+	Committer  string
 }
 
 // HUSK AT COMMIT IKKE INNEHOLDER NOE KODE RELATERT TIL SELVE PROSJEKTET

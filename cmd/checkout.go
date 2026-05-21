@@ -1,4 +1,4 @@
-package repo
+package cmd
 
 import (
 	"fmt"
@@ -10,13 +10,18 @@ import (
 func Checkout(hash string) {
 
 	path := path.Join(".git-light", "objects", hash[:2], hash[2:])
-	commitData, err := util.ReadAll(path)
+	compressedData, err := util.ReadAll(path)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		return
+	}
+	decompressed, err := util.DecompressBytes(compressedData)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 		return
 	}
 
-	entries, err := object.ParseTree(commitData)
+	entries, err := object.ParseTree(decompressed)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 		return
@@ -25,7 +30,7 @@ func Checkout(hash string) {
 	fmt.Println("LENGT OF entries: ", len(entries))
 
 	for _, file := range entries {
-		fmt.Println("Mode: ", string(file.Mode), " Name", string(file.Name), " Hash", string(file.Hash))
+		fmt.Println(string(file.Mode), string(file.Name), string(file.Hash))
 	}
 
 }

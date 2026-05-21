@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha1"
 	"encoding/hex"
+	"git-light/util"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -39,8 +40,14 @@ func Write(obj GitObject) (string, error) {
 		return encodedObject, nil
 	}
 
+	// KOMPRIMER ALT SAMMEN FØR SKRIVING TIL DISK
+	compressed, err := util.CompressBytes(header.Bytes())
+	if err != nil {
+		return "", err
+	}
+
 	// SKRIV OBJEKTET TIL FILEN
-	if err := os.WriteFile(fp, header.Bytes(), 0444); err != nil { // 0044 GJØR FILEN LESBAR FOR ALLE
+	if err := os.WriteFile(fp, compressed, 0444); err != nil { // 0044 GJØR FILEN LESBAR FOR ALLE
 		return "", err
 	}
 

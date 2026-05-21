@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"git-light/object"
 	"git-light/repo"
 	"git-light/util"
 	"path/filepath"
@@ -24,7 +25,7 @@ func Log() error {
 		if err != nil {
 			return err
 		}
-		commit := repo.ParseCommit(data)
+		commit := object.ParseCommit(data)
 		fmt.Println("commit", hash)
 		fmt.Println("      ", commit.Message)
 		fmt.Println()

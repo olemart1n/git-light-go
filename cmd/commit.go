@@ -20,13 +20,14 @@ func Commit(rootDir string, message string) error {
 		log.Fatal(err)
 	}
 
-	entries := make([]object.TreeEntry, 0, len(files))
+	entries := make([]object.TreeEntry, 0, len(files)) // LISTEN MED FILER SOM SKAL I TREET
 
 	for _, file := range files {
 		content, err := util.ReadAll(file)
 		if err != nil {
 			return err
 		}
+
 		// Et nytt blob objekt for hver fil i working directory
 		blob := object.Blob{Data: content}
 		hash, err := object.Write(blob)
@@ -53,6 +54,7 @@ func Commit(rootDir string, message string) error {
 		ParentHash: parentHash,
 		Author:     "Name <name@mail.com>",
 		TreeHash:   treeHash,
+		Committer:  "some committer name",
 	}
 	commitHash, err := object.Write(commit)
 	if err != nil {
